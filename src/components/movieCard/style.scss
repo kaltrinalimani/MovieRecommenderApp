@@ -22,6 +22,20 @@
     justify-content: space-between;
     padding: 10px;
     transition: all ease 0.5s;
+    .heartButton {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 24px;
+      color: white;
+    }
+
+    .heartButton.liked {
+      color: red;
+    }
     .lazy-load-image-background {
       position: absolute;
       top: 0;

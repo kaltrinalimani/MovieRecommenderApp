@@ -1,17 +1,19 @@
 import PropTypes from "prop-types";
 import "./style.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const SwitchTabs = ({ data, onTabChange }) => {
-  const [selectedTab, setSelectedTab] = useState(0);
+const SwitchTabs = ({ data, onTabChange, selectedTab }) => {
   const [left, setLeft] = useState(0);
+
+  useEffect(() => {
+    setLeft(selectedTab * 100);
+  }, [selectedTab]);
 
   const activeTab = (tab, index) => {
     setLeft(index * 100);
     setTimeout(() => {
-      setSelectedTab(index);
+      onTabChange(tab, index);
     }, 300);
-    onTabChange(tab, index);
   };
 
   return (
@@ -26,7 +28,7 @@ const SwitchTabs = ({ data, onTabChange }) => {
             {tab}
           </span>
         ))}
-        <span className="movingBg" style={{ left }} />
+        <span className="movingBg" style={{ left: `${left}px` }} />
       </div>
     </div>
   );
@@ -36,6 +38,7 @@ const SwitchTabs = ({ data, onTabChange }) => {
 SwitchTabs.propTypes = {
   data: PropTypes.array.isRequired, // Require data prop to be an array
   onTabChange: PropTypes.func.isRequired, // Require onTabChange prop to be a function
+  selectedTab: PropTypes.number,
 };
 
 export default SwitchTabs;

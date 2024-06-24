@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { fetchDataFromApi } from "./utils/api";
 import { useDispatch } from "react-redux";
 import { getApiConfiguration, getGenres } from "./store/homeSlice";
+import { auth } from "./firebase";
 
 import Header from "./components/header/Header";
 import Footer from "./components/footer/Footer";
@@ -10,11 +11,38 @@ import Home from "./pages/home/Home";
 import Details from "./pages/details/Details";
 import SearchResult from "./pages/searchResult/SearchResult";
 import Explore from "./pages/explore/Explore";
+import LogIn from "./pages/logIn/LogIn";
+import UserProfile from "./pages/userProfile/UserProfile";
 import PageNotFound from "./pages/404/PageNotFound";
+import { setLoading, setFavoriteMedia } from "./store/userSlice";
+import { fetchFavoriteMediaFromFirestore } from "./firestore";
 
 function App() {
   // Hook to access the dispatch function from the Redux store
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(async (authUser) => {
+      // Listener for authentication state changes
+      if (authUser) {
+        // If a user is authenticated
+        fetchFavoriteMediaFromFirestore(authUser.uid) // Fetch the user's favorite media from Firestore
+          .then((favoriteMedia) => {
+            dispatch(setFavoriteMedia(favoriteMedia)); // Update the Redux store with the fetched favorite media
+            dispatch(setLoading(false));
+          })
+          .catch((error) => {
+            // Handle any errors that occur during the fetch
+            console.error("Error fetching favorite media:", error);
+          });
+      } else {
+        // If no user is authenticated
+        dispatch(setLoading(false));
+      }
+    });
+    // Return a cleanup function that unsubscribes from the auth state listener
+    return () => unsubscribe();
+  }, [dispatch]);
 
   // Function to fetch API configuration data
   // useCallback is used to memoize the function, ensuring it is not recreated on every render
@@ -65,6 +93,8 @@ function App() {
         <Route path="/:mediaType/:id" element={<Details />} />
         <Route path="/search/:query" element={<SearchResult />} />
         <Route path="/explore/:mediaType" element={<Explore />} />
+        <Route path="/logIn" element={<LogIn />} />
+        <Route path="/profile" element={<UserProfile />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
       <Footer />

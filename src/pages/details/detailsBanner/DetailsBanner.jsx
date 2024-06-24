@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { addFavorite, removeFavorite } from "../../../store/userSlice.js";
 import dayjs from "dayjs";
 import PropTypes from "prop-types";
 
@@ -22,12 +23,28 @@ const DetailsBanner = ({ video, crew }) => {
   const { mediaType, id } = useParams(); // Extracting mediaType and id from the URL parameters
   const { data, loading } = useFetch(`/${mediaType}/${id}`); // Fetching the detailed data of the media item
   const { url } = useSelector((state) => state.home);
-  const _genres = data?.genres.map((g) => g.id);
+  const _genres = data?.genres?.map((g) => g.id);
   const director = crew?.filter((f) => f.job === "Director"); // Filtering the crew to get directors
   // Filtering the crew to get writers
   const writer = crew?.filter(
     (f) => f.job === "Screenplay" || f.job === "Writer"
   );
+
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.userData);
+  const favoriteMedia = useSelector(
+    (state) => state.user.userData?.favoriteMedia
+  );
+
+  const isFavorite = favoriteMedia.some((media) => media.id === data?.id);
+  const handleLike = (e) => {
+    e.stopPropagation(); // Prevent the click event from propagating to the parent div
+    if (isFavorite) {
+      dispatch(removeFavorite(data));
+    } else {
+      dispatch(addFavorite(data));
+    }
+  };
 
   // Function to convert runtime from minutes to hours and minutes
   const toHoursAndMinutes = (totalMinutes) => {
@@ -71,7 +88,15 @@ const DetailsBanner = ({ video, crew }) => {
                     <div className="subtitle">{data.tagline}</div>
                     <Genres data={_genres} />
                     <div className="row">
-                      <CircleRating rating={data?.vote_average.toFixed(1)} />
+                      {user.uid && ( //Display the heart button if the user is logged in.
+                        <button
+                          className={`heartButton ${isFavorite ? "liked" : ""}`}
+                          onClick={handleLike}
+                        >
+                          {isFavorite ? "❤️" : "♡"}
+                        </button>
+                      )}
+                      <CircleRating rating={data?.vote_average?.toFixed(1)} />
                       <div
                         className="playbtn"
                         onClick={() => {

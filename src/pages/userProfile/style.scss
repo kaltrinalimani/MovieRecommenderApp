@@ -1,0 +1,31 @@
+@import "../../mixins.scss";
+.userProfilePage {
+  padding-top: 100px;
+  color: white;
+  min-height: 100vh;
+
+  .userProfileContainer {
+    background-color: var(--black-lighter);
+    margin-bottom: 20px;
+    padding: 10px;
+
+    .userProfileData {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+  }
+
+  .userfavoriteListTitle {
+    margin-bottom: 20px;
+  }
+
+  .mediaListContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    @include md {
+      gap: 20px;
+    }
+  }
+}

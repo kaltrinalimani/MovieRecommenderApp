@@ -154,6 +154,18 @@
         align-items: center;
         gap: 25px;
         margin-bottom: 25px;
+        .heartButton {
+          background: none;
+          border: none;
+          cursor: pointer;
+          font-size: 40px;
+          color: white;
+          width: 50px;
+        }
+
+        .heartButton.liked {
+          color: red;
+        }
       }
 
       .info {

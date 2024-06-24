@@ -5,11 +5,15 @@ import HeroBanner from "./heroBanner/HeroBanner";
 import Trending from "./trending/Trending";
 import Popular from "./popular/Popular";
 import TopRated from "./topRated/TopRated";
+import ForYou from "./forYou/ForYou";
+import { useSelector } from "react-redux";
 
 const Home = () => {
+  const user = useSelector((state) => state.user.userData);
   return (
     <div className="homePage">
       <HeroBanner />
+      {user.uid && <ForYou />}
       <Trending />
       <Popular />
       <TopRated />
