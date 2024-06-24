@@ -165,11 +165,11 @@ const LogIn = () => {
           {firebasePassErr && (
             <span className="firebaseError">{firebasePassErr}</span>
           )}
-          {isLogin && (
+          {/* {isLogin && (
             <a href="#" className="forgot-password">
               Forgot password?
             </a>
-          )}
+          )} */}
           <button type="submit">{isLogin ? "Login" : "Signup"}</button>
           {user.isLoading && (
             <div className="rotatingSpinner">
