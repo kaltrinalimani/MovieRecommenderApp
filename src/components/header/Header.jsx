@@ -12,7 +12,6 @@ import "./style.scss";
 
 import ContentWrapper from "../contentWrapper/ContentWrapper";
 import DropDownMenu from "../dropDownMenu/DropDownMenu";
-import logo from "../../assets/movie-logo.png";
 import avatar from "../../assets/avatar.png";
 import { useSelector } from "react-redux";
 
@@ -110,7 +109,6 @@ const Header = () => {
       <ContentWrapper>
         <>
           <div className="logo" onClick={() => navigate("/")}>
-            <img src={logo} alt="Logo" />
             <span>Movie Recommender</span>
           </div>
           {/* Desktop menu */}

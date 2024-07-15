@@ -5,6 +5,8 @@ export const homeSlice = createSlice({
   initialState: {
     url: {},
     genres: {},
+    combinedMedias: [],
+    allDataLoading: false,
   },
   reducers: {
     getApiConfiguration: (state, action) => {
@@ -13,10 +15,21 @@ export const homeSlice = createSlice({
     getGenres: (state, action) => {
       state.genres = action.payload;
     },
+    setCombinedMedias: (state, action) => {
+      state.combinedMedias = action.payload;
+    },
+    setAllDataLoading: (state, action) => {
+      state.allDataLoading = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { getApiConfiguration, getGenres } = homeSlice.actions;
+export const {
+  getApiConfiguration,
+  getGenres,
+  setCombinedMedias,
+  setAllDataLoading,
+} = homeSlice.actions;
 
 export default homeSlice.reducer;

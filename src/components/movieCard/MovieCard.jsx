@@ -48,7 +48,11 @@ const MovieCard = ({ data, fromSearch, mediaType }) => {
   return (
     <div
       className="movieCard"
-      onClick={() => navigate(`/${data?.media_type || mediaType}/${data?.id}`)}
+      onClick={() =>
+        navigate(
+          `/${data?.mediaType || data?.media_type || mediaType}/${data?.id}` //data?.mediaType if data comes from details page, data?.media_type if data comes from other pages
+        )
+      }
     >
       <div className="posterBlock">
         <Img className="posterImg" src={posterUrl} />

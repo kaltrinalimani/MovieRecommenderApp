@@ -72,7 +72,11 @@ const SearchResult = () => {
                 {data?.results.map((item, index) => {
                   if (item.media_type === "person") return;
                   return (
-                    <MovieCard key={index} data={item} fromSearch={true} />
+                    <MovieCard
+                      key={`${item.id}-${index}`} // Combine item id and index to ensure uniqueness
+                      data={item}
+                      fromSearch={true}
+                    />
                   );
                 })}
               </InfiniteScroll>

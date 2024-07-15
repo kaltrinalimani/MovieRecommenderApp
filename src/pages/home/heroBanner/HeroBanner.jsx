@@ -8,6 +8,7 @@ import ContentWrapper from "../../../components/contentWrapper/ContentWrapper";
 
 // This code defines a HeroBanner component that displays a background image, welcome message, and search input field. It fetches upcoming movie data, selects a random background image from the fetched data, and allows users to search for movies or TV shows.
 const HeroBanner = () => {
+  const user = useSelector((state) => state.user.userData);
   const [background, setBackground] = useState("");
   const [query, setQuery] = useState("");
   const navigate = useNavigate(); // Navigation hook from React Router
@@ -51,6 +52,7 @@ const HeroBanner = () => {
       <ContentWrapper>
         <div className="heroBannerContent">
           <span className="title">Welcome</span>
+          {!user.uid && <h3>Log in to get personalized recommendations</h3>}
           <span className="subTitle">
             Discover many films and Tv shows tailored just for you. Explore now.
           </span>

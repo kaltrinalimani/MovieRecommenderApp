@@ -146,7 +146,7 @@ const Explore = () => {
                     if (item.media_type === "person") return;
                     return (
                       <MovieCard
-                        key={index}
+                        key={`${item.id}-${index}`} // Combine item id and index to ensure uniqueness
                         data={item}
                         mediaType={mediaType}
                       />

@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import {
   BsFillArrowLeftCircleFill,
   BsFillArrowRightCircleFill,
@@ -24,6 +24,13 @@ const Carousel = ({ data, loading, endpoint, title }) => {
 
     container.scrollTo({ left: scrollAmount, behavior: "smooth" });
   };
+
+  // Reset the scroll position to the leftmost position whenever the component mounts or data changes
+  useEffect(() => {
+    if (carouselContainer.current) {
+      carouselContainer.current.scrollTo({ left: 0, behavior: "smooth" });
+    }
+  }, [data]);
 
   const skItem = () => {
     return (
@@ -51,13 +58,15 @@ const Carousel = ({ data, loading, endpoint, title }) => {
         />
         {!loading ? (
           <div className="carouselItems" ref={carouselContainer}>
-            {data?.map((item) => (
-              <MovieCard
-                key={item.id}
-                data={item}
-                mediaType={item.media_type || endpoint}
-              />
-            ))}
+            {data?.map((item, index) => {
+              return (
+                <MovieCard
+                  key={`${item.id}-${index}`} // Add a unique key to each item
+                  data={item}
+                  mediaType={item.media_type || endpoint}
+                />
+              );
+            })}
           </div>
         ) : (
           <div className="loadingSkeleton">

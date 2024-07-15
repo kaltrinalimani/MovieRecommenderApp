@@ -1,8 +1,13 @@
 import { useEffect, useCallback } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { fetchDataFromApi } from "./utils/api";
+import { fetchDataFromApi, fetchAllDataOfMediaType } from "./utils/api";
 import { useDispatch } from "react-redux";
-import { getApiConfiguration, getGenres } from "./store/homeSlice";
+import {
+  getApiConfiguration,
+  getGenres,
+  setAllDataLoading,
+  setCombinedMedias,
+} from "./store/homeSlice";
 import { auth } from "./firebase";
 
 import Header from "./components/header/Header";
@@ -28,7 +33,14 @@ function App() {
         // If a user is authenticated
         fetchFavoriteMediaFromFirestore(authUser.uid) // Fetch the user's favorite media from Firestore
           .then((favoriteMedia) => {
-            dispatch(setFavoriteMedia(favoriteMedia)); // Update the Redux store with the fetched favorite media
+            const updatedFavoriteMedia = favoriteMedia.map((media) => {
+              if (media.first_air_date) {
+                // Add mediaType attribute if first_air_date exists because only tv shows have first_air_date
+                return { ...media, mediaType: "tv" };
+              }
+              return media;
+            });
+            dispatch(setFavoriteMedia(updatedFavoriteMedia)); // Update the Redux store with the fetched favorite media
             dispatch(setLoading(false));
           })
           .catch((error) => {
@@ -79,11 +91,22 @@ function App() {
     dispatch(getGenres(allGenres));
   }, [dispatch]); // Dependency array to ensure genresCall is memoized based on the dispatch function
 
-  //Run the fetchApiConfig and genresCall functions when the component mounts
+  // Fetch all media(top rated movies/tvs and combine them) and store them in Redux state. Only some of the Top-rated because the api has a lot of data and takes too long to load them all. This is only to demonstrate the content based filtering algorithm.
+  const fetchAllMedia = useCallback(async () => {
+    dispatch(setAllDataLoading(true));
+    const movies = await fetchAllDataOfMediaType("movie");
+    const tvs = await fetchAllDataOfMediaType("tv");
+    const combinedMedias = [...movies, ...tvs];
+    dispatch(setCombinedMedias(combinedMedias));
+    dispatch(setAllDataLoading(false));
+  }, [dispatch]);
+
+  //Run the fetchApiConfig, genresCall, fetchAllMedia functions when the component mounts
   useEffect(() => {
     fetchApiConfig();
     genresCall();
-  }, [fetchApiConfig, genresCall]);
+    fetchAllMedia();
+  }, [fetchApiConfig, genresCall, fetchAllMedia]);
 
   return (
     <BrowserRouter>

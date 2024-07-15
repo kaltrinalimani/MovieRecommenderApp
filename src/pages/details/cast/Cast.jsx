@@ -28,13 +28,13 @@ const Cast = ({ data, loading }) => {
         {!loading ? (
           data && data.length > 0 ? (
             <div className="listItems">
-              {data?.map((item) => {
+              {data?.map((item, index) => {
                 // Determine the image URL for the cast member
                 let imgUrl = item.profile_path
                   ? url.profile + item.profile_path
                   : avatar;
                 return (
-                  <div key={item.id} className="listItem">
+                  <div key={`${item.id}-${index}`} className="listItem">
                     <div className="profileImg">
                       <Img src={imgUrl} />
                     </div>
