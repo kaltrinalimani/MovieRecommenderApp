@@ -18,7 +18,7 @@ const Details = () => {
   const { data: credits, loading: creditsLoading } = useFetch(
     `/${mediaType}/${id}/credits`
   );
-  const combinedMedias = useSelector((state) => state.home.combinedMedias);
+  const combinedMedias = useSelector((state) => state.home.combinedMedias); // for 100 pages ~ 1500 combinedMedias, 50 pages ~ 1134 combinedMedias
   const { data: selectedMedia, loading: selectedMediaLoading } = useFetch(
     `/${mediaType}/${id}`
   ); // Fetching the detailed data of the media item selected

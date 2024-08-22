@@ -23,7 +23,7 @@ const UserProfile = () => {
   useEffect(() => {
     const fetchAndComputeSimilarities = async () => {
       // Create a set of IDs from combinedMedias for efficient lookup
-      const combinedMediaIds = new Set(combinedMedias.map((media) => media.id));
+      const combinedMediaIds = new Set(combinedMedias.map((media) => media.id)); // Set(1119){278, 238, 240, 424, 389…}
 
       // Filter favoriteMediaList to get items that are not in combinedMedias
       const favoriteMediaNotInCombined = favoriteMediaList?.filter(
@@ -70,7 +70,6 @@ const UserProfile = () => {
     }
   }, [favoriteMediaList, combinedMedias]);
 
-  console.log(favoriteMediaList);
   return (
     <div className="userProfilePage">
       <ContentWrapper>

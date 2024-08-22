@@ -23,6 +23,8 @@ export const extractAttributes = (media, mediaType) => {
     ...preprocessedTitleOrName,
     ...preprocessedOverview,
   ];
+  // Convert to a Set to remove duplicates, then back to an array
+  let uniqueFeatures = [...new Set(combinedFeatures)];
 
   return {
     id: media?.id,
@@ -30,20 +32,10 @@ export const extractAttributes = (media, mediaType) => {
     backdrop_path: media?.backdrop_path,
     poster_path: media?.poster_path,
     genres: media?.genre_ids,
-    combinedFeatures,
+    combinedFeatures: uniqueFeatures,
     overview: preprocessText(media?.overview),
     vote_average: media?.vote_average,
     release_date: media?.release_date || media?.first_air_date,
     mediaType: mediaType || media?.mediaType,
   };
-};
-
-export const filterResults = (data, minRating = 7.5) => {
-  const filteredResults = data?.filter(
-    (media) =>
-      media.vote_average > minRating &&
-      media.original_language === "en" &&
-      media.overview // Ensure overview is not null or undefined
-  );
-  return filteredResults;
 };

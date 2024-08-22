@@ -28,7 +28,7 @@ export const fetchAllDataOfMediaType = async (
   targetMediaInCorpus,
   favoriteMediaNotInCombined,
   minRating = 7.5,
-  maxPages = 100 // for the filtering values below, i get results from only 165 of these many pages fetched
+  maxPages = 50 // for the filtering values below, i get results from only 165 of these many pages fetched
 ) => {
   let page = 1;
   let allData = [];
@@ -60,6 +60,7 @@ export const fetchAllDataOfMediaType = async (
   }
   // if there are no selected media in corpus. It is called from details component or profile component
   else {
+    // called from details component
     if (!favoriteMediaNotInCombined) {
       const mediaInCorpus = combinedMediasWithSelected.find(
         (media) => media.id === targetMediaInCorpus?.id

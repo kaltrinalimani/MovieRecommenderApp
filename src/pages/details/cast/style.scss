@@ -24,7 +24,7 @@
       .profileImg {
         width: 125px;
         height: 125px;
-        border-radius: 50%;
+        border-radius: 10%;
         overflow: hidden;
         margin-bottom: 15px;
         @include md {
@@ -80,7 +80,7 @@
       .circle {
         width: 125px;
         height: 125px;
-        border-radius: 50%;
+        border-radius: 10%;
         margin-bottom: 15px;
         @include md {
           width: 175px;

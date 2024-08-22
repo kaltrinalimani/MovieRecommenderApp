@@ -1,11 +1,7 @@
-import {
-  FaFacebookF,
-  FaInstagram,
-  FaTwitter,
-  FaLinkedin,
-} from "react-icons/fa";
+import { FaFacebookF, FaInstagram, FaLinkedin } from "react-icons/fa";
 
 import ContentWrapper from "../contentWrapper/ContentWrapper";
+import TmdbLogo from "../../assets/tmdb_long.svg";
 
 import "./style.scss";
 
@@ -28,11 +24,13 @@ const Footer = () => {
             <FaInstagram />
           </span>
           <span className="icon">
-            <FaTwitter />
-          </span>
-          <span className="icon">
             <FaLinkedin />
           </span>
+        </div>
+        <div className="tmdbLogo">
+          <a href="https://www.themoviedb.org" target="_blank">
+            <img src={TmdbLogo} alt="tmdb-logo" />
+          </a>
         </div>
       </ContentWrapper>
     </footer>

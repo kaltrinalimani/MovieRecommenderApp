@@ -25,7 +25,11 @@ const normalizeAndTokenize = (text) => {
 
 const lemmatizeTokens = (tokens) => {
   return tokens?.map((token) => {
-    const lemma = nlp(token).normalize().out("root");
+    const doc = nlp(token);
+    const lemma =
+      doc.verbs().conjugate()[0]?.Infinitive ||
+      doc.nouns().toSingular().out("text") ||
+      doc.out("normal");
     return lemma;
   });
 };
