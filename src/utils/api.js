@@ -28,7 +28,7 @@ export const fetchAllDataOfMediaType = async (
   targetMediaInCorpus,
   favoriteMediaNotInCombined,
   minRating = 7.5,
-  maxPages = 50 // for the filtering values below, i get results from only 165 of these many pages fetched
+  maxPages = 40 // for the filtering values below, i get results from only 165 of these many pages fetched
 ) => {
   let page = 1;
   let allData = [];

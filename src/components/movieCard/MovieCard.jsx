@@ -16,7 +16,7 @@ import CircleRating from "../circleRating/CircleRating";
 import Genres from "../genres/Genres";
 import PosterFallback from "../../assets/no-poster.png";
 
-const MovieCard = ({ data, fromSearch, mediaType }) => {
+const MovieCard = ({ data, fromSearch, mediaType, onLike }) => {
   const { url } = useSelector((state) => state.home); // Get the URL configuration from the Redux store
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -43,6 +43,10 @@ const MovieCard = ({ data, fromSearch, mediaType }) => {
       dispatch(addFavorite(data));
       await updateFavoriteMediaInFirestore(user.uid, data); // Update favorite media in Firestore.
     }
+
+    () => {
+      onLike();
+    };
   };
 
   return (
@@ -86,6 +90,7 @@ MovieCard.propTypes = {
   data: PropTypes.object, // Validate `data` prop as an object
   fromSearch: PropTypes.bool, // Validate `fromSearch` prop as a boolean
   mediaType: PropTypes.string, // Validate `mediaType` prop as a string
+  onLike: PropTypes.func,
 };
 
 export default MovieCard;

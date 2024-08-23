@@ -10,7 +10,7 @@ import MovieCard from "../movieCard/MovieCard";
 
 import "./style.scss";
 
-const Carousel = ({ data, loading, endpoint, title }) => {
+const Carousel = ({ data, loading, endpoint, title, onLike }) => {
   const carouselContainer = useRef();
 
   const navigation = (dir) => {
@@ -64,6 +64,7 @@ const Carousel = ({ data, loading, endpoint, title }) => {
                   key={`${item.id}-${index}`} // Add a unique key to each item
                   data={item}
                   mediaType={item.media_type || endpoint}
+                  onLike={() => onLike(item)}
                 />
               );
             })}
@@ -87,6 +88,7 @@ Carousel.propTypes = {
   loading: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]), // loading prop to be a boolean or a string
   endpoint: PropTypes.string, // endpoint prop to be a string
   title: PropTypes.string, // Allow title prop to be a string
+  onLike: PropTypes.func,
 };
 
 export default Carousel;

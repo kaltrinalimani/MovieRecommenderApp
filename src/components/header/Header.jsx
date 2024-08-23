@@ -12,11 +12,13 @@ import "./style.scss";
 
 import ContentWrapper from "../contentWrapper/ContentWrapper";
 import DropDownMenu from "../dropDownMenu/DropDownMenu";
+import Spinner from "../spinner/Spinner";
 import avatar from "../../assets/avatar.png";
 import { useSelector } from "react-redux";
 
 const Header = () => {
   const user = useSelector((state) => state.user.userData);
+  const combinedMedias = useSelector((state) => state.home.combinedMedias);
   const [show, setShow] = useState("top"); // Controls the visibility of the header
   const [lastScrollY, setLastScrollY] = useState(0); // Keeps track of the last scroll position
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false); // Indicates if the mobile menu is open
@@ -113,6 +115,12 @@ const Header = () => {
           </div>
           {/* Desktop menu */}
           <ul className="menuItems">
+            {combinedMedias?.length === 0 && (
+              <li className="dataLoader">
+                <p>Processing recommendations... </p>
+                <Spinner initial={true} />
+              </li>
+            )}
             <li className="menuItem" onClick={() => navigationHandler("movie")}>
               Movies
             </li>

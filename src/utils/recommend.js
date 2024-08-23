@@ -94,7 +94,7 @@ export const computeSimilarities = (tfidfVectors, targetId) => {
       mediaType: doc.mediaType,
     }))
     .sort((a, b) => b.similarity - a.similarity) // sort by similarity in descending order
-    .slice(0, 20); // return the top results
+    .slice(0, 40); // return the top results
 };
 
 export const recommendFunction = (allMediaTogether, targetMediaId) => {
