@@ -51,7 +51,7 @@ const Details = () => {
         })
       );
 
-      setSimilarMedia(similarMediaDetails);
+      setSimilarMedia(similarMediaDetails.slice(0, 20));
     };
 
     if (!selectedMediaLoading && selectedMedia && combinedMedias.length > 0) {
